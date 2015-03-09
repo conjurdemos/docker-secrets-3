@@ -16,9 +16,9 @@ sleep 10
 docker logs db-${env} >> ${env}.log
 
 password=$(openssl rand -hex 8)
-docker exec db-${env} mysql -e "set password for 'redmine' = password('${password}');" 2>&1 >> ${env}.log
-echo export DB_PASSWORD_${env_u}=${password}
+docker exec db-${env} mysql -e 'set password for "redmine"=password("'${password}'");' 2>&1 >> ${env}.log
+export DB_PASSWORD_${env_u}=${password}
 
 mysql_host=$(docker inspect db-${env} | grep IPAddress | cut -d '"' -f 4)
 
-echo export DB_HOST_${env_u}=${mysql_host}
+export DB_HOST_${env_u}=${mysql_host}
