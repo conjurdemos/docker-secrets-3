@@ -8,4 +8,4 @@ conjur group create --as-group security_admin developers
 conjur group members add -a developers donna
 
 apikey=$(cat donna.json | jsonfield api_key)
-echo $apikey | conjur authn login -u donna
+conjur authn login -p ${apikey} -u donna
