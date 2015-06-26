@@ -11,7 +11,13 @@ fi
 
 docker run -d --cidfile=${env}.cid --name=db-${env} conjurdemos/redmine-db 2>&1 >> ${env}.log
 
-sleep 10
+echo -n 'Starting db'
+until docker exec db-${env} bash -c 'mysqladmin ping 2>&1 >/dev/null' 2>&1 >/dev/null ; do
+  echo -n '.'
+  sleep 2
+done
+echo ' done.'
+
 
 docker logs db-${env} >> ${env}.log
 
